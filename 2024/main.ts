@@ -1,5 +1,5 @@
-import { main1 } from "./1/1.js";
-import { main2 } from "./2/2.js";
+import { main1 } from "./1/index.js";
+import { main2 } from "./2/index.js";
 
 main1();
 main2();

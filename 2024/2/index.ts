@@ -1,16 +1,12 @@
-import * as fs from 'fs';
+import { readFileForDay } from '../fileHelper.js';
 
 export async function main2() {
-    const fileData = await fs.readFileSync('./2/2-sample.txt', 'utf-8');
-    // const fileData = await fs.readFileSync('./2/2-input.txt', 'utf-8');
+    const fileData = await readFileForDay(2);
 
     const reports: number[][] = fileData
-        .split('\n')
         .map(l => l
             .split(' ')
-            .map(v => parseInt(v))
-            .filter(v => !Number.isNaN(v)))
-        .filter(a => a.length > 0);
+            .map(v => parseInt(v)));
 
     const numSafe1 = reports.filter(input => isGraduallyChanging(input)).length;
     const numSafe2 = reports.filter(input => isGraduallyChangingWithDampening(input)).length;

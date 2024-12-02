@@ -1,5 +1,5 @@
 # ignore inputs
-*-input.txt
+input.txt
 
 # Dependency directory
 node_modules
