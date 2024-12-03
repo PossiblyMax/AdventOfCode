@@ -7,6 +7,6 @@ export async function readFileForDay(day: number) {
     const filename = fs.existsSync(inputFilename) ? inputFilename : sampleFilename;
     const fileData = await fs.readFileSync(filename, 'utf-8');
 
-    return fileData.split('\n')
+    return fileData.split('\r\n')
         .filter(l => l.trim().length > 0);
 }
