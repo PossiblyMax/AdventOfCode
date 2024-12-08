@@ -5,6 +5,7 @@ import { main4 } from "./4/index.js";
 import { main5 } from "./5/index.js";
 import { main6 } from "./6/index.js";
 import { main7 } from "./7/index.js";
+import { main8 } from "./8/index.js";
 
 main1();
 main2();
@@ -13,3 +14,4 @@ main4();
 main5();
 main6();
 main7();
+main8();
