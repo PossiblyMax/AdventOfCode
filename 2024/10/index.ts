@@ -27,7 +27,7 @@ function getAllTrails(map: number[][]) {
     for (let i = 0; i < map.length; i++) {
         for (let j = 0; j < map[i].length; j++) {
             if (map[i][j] === 0) {
-                const trails = getTrailsForTrailHead(map, i, j);
+                const trails = getTrailsThatCompleteFrom(map, i, j);
                 if (trails.length > 0) {
                     allTrails[`${i},${j}`] = trails;
                 }
@@ -38,7 +38,7 @@ function getAllTrails(map: number[][]) {
     return allTrails;
 }
 
-function getTrailsForTrailHead(map: number[][], i: number, j: number) {
+function getTrailsThatCompleteFrom(map: number[][], i: number, j: number) {
     const current = map[i][j];
 
     if (current === 9) {
@@ -48,7 +48,7 @@ function getTrailsForTrailHead(map: number[][], i: number, j: number) {
     const trails: number[][] = [];
     for (const [x, y] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
         if (i + x >= 0 && i + x < map.length && map[i + x][j + y] === current + 1) {
-            trails.push(...getTrailsForTrailHead(map, i + x, j + y));
+            trails.push(...getTrailsThatCompleteFrom(map, i + x, j + y));
         }
     }
 
