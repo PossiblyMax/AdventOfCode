@@ -4,7 +4,7 @@ export async function main10() {
     const fileData = (await readFileForDay(10));
 
     const map = fileData.map(l => l.split('').map(v => parseInt(v)));
-    const trails = getTrails(map);
+    const trails = getAllTrails(map);
 
     let countDistinct = 0;
     let countRatings = 0;
@@ -22,38 +22,35 @@ export async function main10() {
     console.log('--------')
 }
 
-function getTrails(map: number[][]) {
-    let trails: { [key: string]: number[][] } = {};
+function getAllTrails(map: number[][]) {
+    let allTrails: { [key: string]: number[][] } = {};
     for (let i = 0; i < map.length; i++) {
         for (let j = 0; j < map[i].length; j++) {
             if (map[i][j] === 0) {
-                const trail = getTrail(map, i, j);
-                if (trail.length > 0) {
-                    trails[`${i},${j}`] = trail;
+                const trails = getTrailsForTrailHead(map, i, j);
+                if (trails.length > 0) {
+                    allTrails[`${i},${j}`] = trails;
                 }
-
             }
         }
     }
 
-    return trails;
+    return allTrails;
 }
 
-function getTrail(map: number[][], i: number, j: number) {
+function getTrailsForTrailHead(map: number[][], i: number, j: number) {
     const current = map[i][j];
 
     if (current === 9) {
         return [[i, j]];
     }
 
-    const next = current + 1;
-    const trail: number[][] = [];
-    for (let k = 0; k < 4; k++) {
-        const [x, y] = [[-1, 0], [1, 0], [0, -1], [0, 1]][k];
-        if (i + x >= 0 && i + x < map.length && map[i + x][j + y] === next) {
-            trail.push(...getTrail(map, i + x, j + y));
+    const trails: number[][] = [];
+    for (const [x, y] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+        if (i + x >= 0 && i + x < map.length && map[i + x][j + y] === current + 1) {
+            trails.push(...getTrailsForTrailHead(map, i + x, j + y));
         }
     }
 
-    return trail;
+    return trails;
 }
