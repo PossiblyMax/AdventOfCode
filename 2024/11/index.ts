@@ -6,8 +6,13 @@ export async function main11() {
 
     const stones = fileData[0].split(' ').map(s => parseInt(s));
 
+    console.time('11A processing time');
     const stonesLenA = processBlink(stones, 25);
+    console.timeEnd('11A processing time');
+
+    console.time('11B processing time');
     const stonesLenB = processBlink(stones, 75);
+    console.timeEnd('11B processing time');
 
     console.log('11A', stonesLenA);
     console.log('11B', stonesLenB);
@@ -16,52 +21,33 @@ export async function main11() {
 
 function processBlink(stones: number[], blinks: number) {
     let nextMap: StoneMap = {};
-    for (let i = 0; i < stones.length; i++) {
-        const stone = stones[i];
-        nextMap[stone] = nextMap[stone] || 0;
-        nextMap[stone]++;
+    for (const stone of stones) {
+        nextMap[stone] = (nextMap[stone] ?? 0) + 1;
     }
 
-    for (let b = 0; b < blinks; b++) {
+    for (; blinks > 0; blinks--) {
         nextMap = processStones(nextMap);
     }
 
-    let numStones = 0;
-    for (const key in nextMap) {
-        const numTimes = nextMap[key];
-        numStones += numTimes;
-    }
-
-    return numStones;
+    return Object.entries(nextMap)
+        .reduce((acc, [_key, value]) => acc + value, 0);
 }
 
-function processStones(toCalc: StoneMap) {
+function processStones(currentStones: StoneMap) {
     const newMap: StoneMap = {};
-    for (let key in toCalc) {
+    for (const key of Object.keys(currentStones)) {
         const stone = parseInt(key);
-        const count = toCalc[key];
+        const count = currentStones[stone];
 
         const stoneStr = stone.toString();
-        const newStones = [];
-        switch (true) {
-            case stone === 0:
-                newStones.push(1);
-                break;
-            case (stoneStr.length % 2) === 0:
-                const left = stoneStr.slice(0, stoneStr.length / 2);
-                const right = stoneStr.slice(stoneStr.length / 2);
-
-                newStones.push(parseInt(left));
-                newStones.push(parseInt(right));
-                break;
-            default:
-                newStones.push(stone * 2024);
-                break;
-        }
+        const newStones = stone === 0
+            ? [1]
+            : (stoneStr.length % 2) === 0
+            ? [parseInt(stoneStr.slice(0, stoneStr.length / 2)), parseInt(stoneStr.slice(stoneStr.length / 2))]
+            : [stone * 2024];
 
         for (const newStone of newStones) {
-            newMap[newStone] = newMap[newStone] || 0;
-            newMap[newStone] += count; 
+            newMap[newStone] = (newMap[newStone] ?? 0) + count;
         }
     }
 
