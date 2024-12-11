@@ -1,5 +1,6 @@
 import { main1 } from "./1/index.js";
 import { main10 } from "./10/index.js";
+import { main11 } from "./11/index.js";
 import { main2 } from "./2/index.js";
 import { main3 } from "./3/index.js";
 import { main4 } from "./4/index.js";
@@ -19,3 +20,4 @@ main7();
 main8();
 main9();
 main10();
+main11();
